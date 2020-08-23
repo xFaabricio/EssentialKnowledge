@@ -34,7 +34,7 @@ public class GenericDAODefault implements GenericDAO {
 	}
 
 	@Override
-	public void deleteTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations)
+	public void deleteTable(Connection connection, String tableName)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		

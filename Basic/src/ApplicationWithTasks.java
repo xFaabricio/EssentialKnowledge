@@ -91,7 +91,7 @@ public class ApplicationWithTasks {
 		columnsInformationsList.add(columnsInformations);
 		
 		genericDAO.createTable(connectionMySQL, tableName, columnsInformationsList);
-		
+		genericDAO.deleteTable(connectionMySQL, tableName);
 		
 		connectionMySQL.close();
 		

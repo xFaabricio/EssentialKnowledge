@@ -9,7 +9,7 @@ public interface GenericDAO {
 	
 	public void createTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations) throws SQLException;
 	
-	public void deleteTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations) throws SQLException;
+	public void deleteTable(Connection connection, String tableName) throws SQLException;
 	
 	public void insert(Connection connection, String tableName, HashMap<String,String> columnsAndValues) throws SQLException;
 	

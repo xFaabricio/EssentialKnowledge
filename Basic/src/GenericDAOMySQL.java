@@ -75,9 +75,32 @@ public class GenericDAOMySQL implements GenericDAO {
 	}
 
 	@Override
-	public void deleteTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations)
+	public void deleteTable(Connection connection, String tableName)
 			throws SQLException {
 		// TODO Auto-generated method stub
+		
+		System.out.println("Deletando a Tabela: " + tableName);
+		
+		//Verificando se a Tabela existe
+        
+		try {
+		
+			String query = ("SELECT * FROM information_schema.tables WHERE table_schema = 'siq_jun_web' AND table_name = " + "'" + tableName + "';");
+			Statement statament = connection.createStatement();        
+	        ResultSet resultSet = statament.executeQuery(query);                      
+	        
+	        if(resultSet.next()) {
+	    		String deleteTable = "DROP TABLE " + tableName;
+	    		
+	    		statament.executeUpdate(deleteTable);
+	        	System.out.println("A tabela " + tableName + " foi deletada com sucesso !!");
+	        }
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Falha ao deletar a tabela: " + e.getMessage());
+		}
+		
 		
 	}
 
