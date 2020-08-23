@@ -1,5 +1,7 @@
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApplicationWithTasks {
 
@@ -11,6 +13,8 @@ public class ApplicationWithTasks {
 //		String dataBaseName = "SIQ_JUN_WEB";
 //		String dataBasePrefix = "jdbc:sqlserver:/";
 //		String databasePort = "1433";
+		
+		String tableName = null;
 		
 		/**
 		 * Exemplo Conexão com SQLSERVER
@@ -27,13 +31,13 @@ public class ApplicationWithTasks {
 		// Passando as informações para o construtor
 		
 //		ConnectionDB connectionDB = new ConnectionDB(hostName, userName, password, jdbcDriver, dataBaseName, dataBasePrefix, databasePort);		
-		ConnectionDB connectionDB = new ConnectionDB(userName, password, url, jdbcDriver);
+		ConnectionDB connectionDBSQLServer = new ConnectionDB(userName, password, url, jdbcDriver);
 		
 		//Simples teste para ver se foi realizada a conexão
-		connectionDB.connectionTest();
+		connectionDBSQLServer.connectionTest();
 		
 		// Realizar a conexão com o banco de dados
-		Connection connectionSQLServer = connectionDB.getConnection();
+		Connection connectionSQLServer = connectionDBSQLServer.getConnection();
 		connectionSQLServer.close();
 		
 		
@@ -48,13 +52,13 @@ public class ApplicationWithTasks {
 		jdbcDriver = "oracle.jdbc.driver.OracleDriver";
 		url = "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))(CONNECT_DATA=(SERVICE_NAME=ORASIQ)(SERVER=DEDICATED)))";
 		
-		connectionDB = new ConnectionDB(userName, password, url, jdbcDriver);
+		ConnectionDB connectionDBOracle = new ConnectionDB(userName, password, url, jdbcDriver);
 		
 		//Simples teste para ver se foi realizada a conexão
-		connectionDB.connectionTest();
+		connectionDBOracle.connectionTest();
 		
 		// Realizar a conexão com o banco de dados
-		Connection connectionOracle = connectionDB.getConnection();
+		Connection connectionOracle = connectionDBOracle.getConnection();
 		connectionOracle.close();
 		
 		/**
@@ -66,27 +70,49 @@ public class ApplicationWithTasks {
 		userName = "siq_jun_web";
 		password = "siq_jun_web";
 		jdbcDriver = "com.mysql.jdbc.Driver";
-		url = "jdbc:mysql://localhost:3306/siq_jun_web?useSSL=false";
+		url = "jdbc:mysql://localhost:3306/siq_jun_web?useSSL=false&allowPublicKeyRetrieval=true";
 		
-		connectionDB = new ConnectionDB(userName, password, url, jdbcDriver);
+		ConnectionDB connectionDBMySQL = new ConnectionDB(userName, password, url, jdbcDriver);
 		
 		//Simples teste para ver se foi realizada a conexão
-		connectionDB.connectionTest();
+		connectionDBMySQL.connectionTest();
 		
 		// Realizar a conexão com o banco de dados
-		Connection connectionMySQL = connectionDB.getConnection();
-		connectionMySQL.close();
+		Connection connectionMySQL = connectionDBMySQL.getConnection();
+
+		// Utilizar o DAO referente ao Banco
+		GenericDAO genericDAO = getGenericDAOByDataBase(connectionDBMySQL);
 		
-//		if(connectionDB.getDataBaseKey().equals("MYSQL")) {
-//			GenericDAO genericDAO = new GenericDAOMySQL();
-//		}else if (connectionDB.getDataBaseKey().equals("SQLSERVER")) {
-//			GenericDAO genericDAO = new GenericDAOSQLServer();
-//		}else if(connectionDB.getDataBaseKey().equals("ORACLE")) {
-//			GenericDAO genericDAO = new GenericDAOOracle();
-//		}else{
-//			GenericDAO genericDAO = new GenericDAODefault();
-//		}
+		//Criação de Tabela
+		tableName = "TESTE";
+		
+		List<ColumnsInformations> columnsInformationsList = new ArrayList<>();		
+		ColumnsInformations columnsInformations = new ColumnsInformations("TEXTO", "VARCHAR(20)");
+		columnsInformationsList.add(columnsInformations);
+		
+		genericDAO.createTable(connectionMySQL, tableName, columnsInformationsList);
+		
+		
+		connectionMySQL.close();
 		
 	}
 
+	
+	public static GenericDAO getGenericDAOByDataBase(ConnectionDB connectionDB) {
+		
+		GenericDAO genericDAO = null;
+		
+		if(connectionDB.getDataBaseKey().equals("MYSQL")) {
+			genericDAO = new GenericDAOMySQL();
+		}else if (connectionDB.getDataBaseKey().equals("SQLSERVER")) {
+			genericDAO = new GenericDAOSQLServer();
+		}else if(connectionDB.getDataBaseKey().equals("ORACLE")) {
+			genericDAO = new GenericDAOOracle();
+		}else{
+			genericDAO = new GenericDAODefault();
+		}
+		
+		return genericDAO;
+	}
+	
 }
