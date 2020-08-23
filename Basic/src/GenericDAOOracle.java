@@ -33,4 +33,11 @@ public class GenericDAOOracle implements GenericDAO {
 		
 	}
 
+	@Override
+	public void deleteTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -74,5 +74,12 @@ public class GenericDAOMySQL implements GenericDAO {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
+	public void deleteTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
