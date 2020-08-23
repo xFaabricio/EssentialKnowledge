@@ -57,6 +57,26 @@ public class ApplicationWithTasks {
 		Connection connectionOracle = connectionDB.getConnection();
 		connectionOracle.close();
 		
+		/**
+		 * Exemplo Conexão com Oracle
+		 **/
+				
+		// Informar as configurações do banco de dados
+
+		userName = "siq_jun_web";
+		password = "siq_jun_web";
+		jdbcDriver = "com.mysql.jdbc.Driver";
+		url = "jdbc:mysql://localhost:3306/siq_jun_web?useSSL=false";
+		
+		connectionDB = new ConnectionDB(userName, password, url, jdbcDriver);
+		
+		//Simples teste para ver se foi realizada a conexão
+		connectionDB.connectionTest();
+		
+		// Realizar a conexão com o banco de dados
+		Connection connectionMySQL = connectionDB.getConnection();
+		connectionMySQL.close();
+		
 	}
 
 }

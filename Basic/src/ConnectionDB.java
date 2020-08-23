@@ -72,14 +72,16 @@ public class ConnectionDB {
 
 	
 	public void connectionTest() {
-				
+		
+		getConnection();
+		
 		System.out.println("Identificando Banco de Dados...");
 		
 		if(jdbcDriver.equals("oracle.jdbc.driver.OracleDriver")) {
 			System.out.println("Banco: Oracle");
 		}else if(jdbcDriver.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver")) {
 			System.out.println("Banco: SQLServer");
-		}else if(jdbcDriver.equals("")) {
+		}else if(jdbcDriver.equals("com.mysql.jdbc.Driver")) {
 			System.out.println("Banco: MySQL");
 		}else {
 			System.out.println("Banco não identificado");
@@ -88,9 +90,10 @@ public class ConnectionDB {
 		try {
 			if(connection.isValid(20)) {
 				System.out.println("Conexão realizada com sucesso !!");
+				closeConnection();
 			}
 		} catch (SQLException e) {
-			// TODO: handle exception
+			// TODO: handle exception			
 			System.out.println("Conexão malsucedida !!");
 			e.printStackTrace();
 		}
