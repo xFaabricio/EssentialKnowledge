@@ -14,7 +14,7 @@ public class ConnectionDB {
 	private String dataBaseName = null;
 	private String dataBasePrefix = null;
 	private String dataBasePort = null;
-	
+	private String dataBaseKey = null;
 	
 	public ConnectionDB(String hostName, String userName, String password, String jdbcDriver,
 			String dataBaseName, String dataBasePrefix, String dataBasePort) {
@@ -57,7 +57,8 @@ public class ConnectionDB {
 			
 			if(connection == null) {
 				Class.forName(this.jdbcDriver);
-				connection = DriverManager.getConnection(this.url, this.userName, this.password);				
+				connection = DriverManager.getConnection(this.url, this.userName, this.password);
+				identifyDataBaseWithoutSysout();
 			}else if(connection.isClosed()) {
 				connection = null;
 				return getConnection();
@@ -70,22 +71,44 @@ public class ConnectionDB {
 		return connection;
 	}
 
+	public void identifyDataBaseWithoutSysout() {
+		
+		if(jdbcDriver.equals("oracle.jdbc.driver.OracleDriver")) {
+			dataBaseKey = "ORACLE";
+		}else if(jdbcDriver.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver")) {
+			dataBaseKey = "SQLSERVER";
+		}else if(jdbcDriver.equals("com.mysql.jdbc.Driver")) {
+			dataBaseKey = "MYSQL";
+		}else {
+			dataBaseKey = null;
+		}
+		
+	}
+	
+	public void identifyDataBase() {
+		
+		System.out.println("Identificando Banco de Dados...");
+		
+		if(jdbcDriver.equals("oracle.jdbc.driver.OracleDriver")) {
+			dataBaseKey = "ORACLE";
+			System.out.println("Banco: Oracle");
+		}else if(jdbcDriver.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver")) {
+			dataBaseKey = "SQLSERVER";
+			System.out.println("Banco: SQLServer");		
+		}else if(jdbcDriver.equals("com.mysql.jdbc.Driver")) {
+			dataBaseKey = "MYSQL";
+			System.out.println("Banco: MySQL");
+		}else {
+			System.out.println("Banco não identificado");
+		}
+		
+	}
 	
 	public void connectionTest() {
 		
 		getConnection();
 		
-		System.out.println("Identificando Banco de Dados...");
-		
-		if(jdbcDriver.equals("oracle.jdbc.driver.OracleDriver")) {
-			System.out.println("Banco: Oracle");
-		}else if(jdbcDriver.equals("com.microsoft.sqlserver.jdbc.SQLServerDriver")) {
-			System.out.println("Banco: SQLServer");
-		}else if(jdbcDriver.equals("com.mysql.jdbc.Driver")) {
-			System.out.println("Banco: MySQL");
-		}else {
-			System.out.println("Banco não identificado");
-		}
+		identifyDataBase();
 		
 		try {
 			if(connection.isValid(20)) {
@@ -102,90 +125,89 @@ public class ConnectionDB {
 		
 		
 	}
-
+	
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}
-
 
 	public String getHostName() {
 		return hostName;
 	}
 
-
 	public void setHostName(String hostName) {
 		this.hostName = hostName;
 	}
-
 
 	public String getUserName() {
 		return userName;
 	}
 
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
 
 	public String getPassword() {
 		return password;
 	}
 
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 
 	public String getUrl() {
 		return url;
 	}
 
-
 	public void setUrl(String url) {
 		this.url = url;
 	}
-
 
 	public String getJdbcDriver() {
 		return jdbcDriver;
 	}
 
-
 	public void setJdbcDriver(String jdbcDriver) {
 		this.jdbcDriver = jdbcDriver;
 	}
-
 
 	public String getDataBaseName() {
 		return dataBaseName;
 	}
 
-
 	public void setDataBaseName(String dataBaseName) {
 		this.dataBaseName = dataBaseName;
 	}
-
 
 	public String getDataBasePrefix() {
 		return dataBasePrefix;
 	}
 
-
 	public void setDataBasePrefix(String dataBasePrefix) {
 		this.dataBasePrefix = dataBasePrefix;
 	}
-
 
 	public String getDatabasePort() {
 		return dataBasePort;
 	}
 
-
 	public void setDatabasePort(String databasePort) {
 		this.dataBasePort = databasePort;
 	}
-	
+
+	public String getDataBasePort() {
+		return dataBasePort;
+	}
+
+	public void setDataBasePort(String dataBasePort) {
+		this.dataBasePort = dataBasePort;
+	}
+
+	public String getDataBaseKey() {
+		return dataBaseKey;
+	}
+
+	public void setDataBaseKey(String dataBaseKey) {
+		this.dataBaseKey = dataBaseKey;
+	}
 	
 }

@@ -6,7 +6,7 @@ public class ApplicationWithTasks {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) throws SQLException {
 		// TODO Auto-generated method stub
-			
+		
 //		String hostName = "localhost";
 //		String dataBaseName = "SIQ_JUN_WEB";
 //		String dataBasePrefix = "jdbc:sqlserver:/";
@@ -76,6 +76,16 @@ public class ApplicationWithTasks {
 		// Realizar a conexão com o banco de dados
 		Connection connectionMySQL = connectionDB.getConnection();
 		connectionMySQL.close();
+		
+//		if(connectionDB.getDataBaseKey().equals("MYSQL")) {
+//			GenericDAO genericDAO = new GenericDAOMySQL();
+//		}else if (connectionDB.getDataBaseKey().equals("SQLSERVER")) {
+//			GenericDAO genericDAO = new GenericDAOSQLServer();
+//		}else if(connectionDB.getDataBaseKey().equals("ORACLE")) {
+//			GenericDAO genericDAO = new GenericDAOOracle();
+//		}else{
+//			GenericDAO genericDAO = new GenericDAODefault();
+//		}
 		
 	}
 
