@@ -58,7 +58,7 @@ public class ApplicationWithTasks {
 		connectionOracle.close();
 		
 		/**
-		 * Exemplo Conexão com Oracle
+		 * Exemplo Conexão com MySQL
 		 **/
 				
 		// Informar as configurações do banco de dados
