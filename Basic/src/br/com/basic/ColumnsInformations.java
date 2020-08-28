@@ -1,3 +1,4 @@
+package br.com.basic;
 
 public class ColumnsInformations {
 

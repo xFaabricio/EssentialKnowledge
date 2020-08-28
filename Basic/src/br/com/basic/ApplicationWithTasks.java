@@ -1,7 +1,16 @@
+package br.com.basic;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.basic.connection.ConnectionDB;
+import br.com.basic.databases.GenericDAODefault;
+import br.com.basic.databases.GenericDAOMySQL;
+import br.com.basic.databases.GenericDAOOracle;
+import br.com.basic.databases.GenericDAOSQLServer;
+import br.com.basic.interfaces.GenericDAO;
 
 public class ApplicationWithTasks {
 

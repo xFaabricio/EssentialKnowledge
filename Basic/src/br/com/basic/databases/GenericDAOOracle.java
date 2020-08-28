@@ -1,9 +1,13 @@
+package br.com.basic.databases;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
-public class GenericDAOSQLServer implements GenericDAO {
+import br.com.basic.ColumnsInformations;
+import br.com.basic.interfaces.GenericDAO;
+
+public class GenericDAOOracle implements GenericDAO {
 
 	@Override
 	public void createTable(Connection connection, String tableName, List<ColumnsInformations> columnsInformations)

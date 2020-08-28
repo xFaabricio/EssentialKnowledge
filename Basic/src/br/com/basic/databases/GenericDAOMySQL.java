@@ -1,9 +1,13 @@
+package br.com.basic.databases;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
+
+import br.com.basic.ColumnsInformations;
+import br.com.basic.interfaces.GenericDAO;
 
 public class GenericDAOMySQL implements GenericDAO {
 
