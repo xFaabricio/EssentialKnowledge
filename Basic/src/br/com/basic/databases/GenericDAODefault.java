@@ -22,23 +22,24 @@ public class GenericDAODefault implements GenericDAO {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void deleteAllInformations(Connection connection, List<ColumnsInformations> columnsInformations)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateAllInformations(Connection connection, List<ColumnsInformations> columnsInformations)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	@Override
 	public void deleteTable(Connection connection, String tableName)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAllInformations(Connection connection, String tableName,
+			List<ColumnsInformations> whereColumnsInformations) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateAllInformations(Connection connection, String tableName,
+			List<ColumnsInformations> updateColumnsInformations, List<ColumnsInformations> whereColumnsInformations)
 			throws SQLException {
 		// TODO Auto-generated method stub
 		

@@ -4,7 +4,7 @@ public class ColumnsInformations {
 
 	String columnName;
 	
-	String columnType;
+	String columnTypeOrValue;
 
 	public String getColumnName() {
 		return columnName;
@@ -14,18 +14,18 @@ public class ColumnsInformations {
 		this.columnName = columnName;
 	}
 
-	public String getColumnType() {
-		return columnType;
+	public String getColumnTypeOrValue() {
+		return columnTypeOrValue;
 	}
 
-	public void setColumnType(String columnType) {
-		this.columnType = columnType;
+	public void setColumnTypeOrValue(String columnTypeOrValue) {
+		this.columnTypeOrValue = columnTypeOrValue;
 	}
 
-	public ColumnsInformations(String columnName, String columnType) {
+	public ColumnsInformations(String columnName, String columnTypeOrValue) {
 		super();
 		this.columnName = columnName;
-		this.columnType = columnType;
+		this.columnTypeOrValue = columnTypeOrValue;
 	}
 	
 }

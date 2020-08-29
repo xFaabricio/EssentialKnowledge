@@ -16,8 +16,8 @@ public interface GenericDAO {
 	
 	public void insert(Connection connection, String tableName, HashMap<String,String> columnsAndValues) throws SQLException;
 	
-	public void deleteAllInformations(Connection connection, List<ColumnsInformations> columnsInformations) throws SQLException;
+	public void deleteAllInformations(Connection connection, String tableName, List<ColumnsInformations> whereColumnsInformations) throws SQLException;
 	
-	public void updateAllInformations(Connection connection, List<ColumnsInformations> columnsInformations) throws SQLException;
+	public void updateAllInformations(Connection connection, String tableName, List<ColumnsInformations> updateColumnsInformations, List<ColumnsInformations> whereColumnsInformations) throws SQLException;
 	
 }

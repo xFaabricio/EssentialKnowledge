@@ -22,26 +22,18 @@ public class GenericDAOMySQL implements GenericDAO {
 		try {
 			
 			Statement statament = connection.createStatement();
-			Boolean tableFound = false;
 			
 			//Verificando se a Tabela existe
-            String query = ("SELECT * FROM information_schema.tables WHERE table_schema = 'siq_jun_web' AND table_name = " + "'" + tableName + "';");
-            ResultSet resultSet = statament.executeQuery(query);                      
             
-            if(resultSet.next()) {
-        		System.out.println("Criação não concluída: Tabela já existe.");
-        		tableFound = true;
-            }
-            
-            if(!tableFound) {            	            	
+            if(!verifyIfTableExist(connection, tableName)) {            	            	
             	String createTable = "CREATE TABLE " + tableName + "("; 
             	
             	for(int x=0; x<columnsInformations.size(); x++) {            		
             		
             		if(x==0) {
-            			createTable += columnsInformations.get(x).getColumnName() + " " + columnsInformations.get(x).getColumnType();
+            			createTable += columnsInformations.get(x).getColumnName() + " " + columnsInformations.get(x).getColumnTypeOrValue();
             		}else {
-            			createTable += "," + columnsInformations.get(x).getColumnName()+ " " + columnsInformations.get(x).getColumnType();
+            			createTable += "," + columnsInformations.get(x).getColumnName()+ " " + columnsInformations.get(x).getColumnTypeOrValue();
             		}
             	}
             	
@@ -49,6 +41,8 @@ public class GenericDAOMySQL implements GenericDAO {
             	
             	statament.executeUpdate(createTable);
             	System.out.println("A tabela " + tableName + " foi criada com sucesso !!");
+            }else {
+            	System.out.println("Criação não concluída: Tabela já existe.");
             }
             
 		} catch (Exception e) {
@@ -68,18 +62,10 @@ public class GenericDAOMySQL implements GenericDAO {
 		try {
 			
 			Statement statament = connection.createStatement();
-			Boolean tableFound = false;
 			
 			//Verificando se a Tabela existe
-            String query = ("SELECT * FROM information_schema.tables WHERE table_schema = 'siq_jun_web' AND table_name = " + "'" + tableName + "';");
-            ResultSet resultSet = statament.executeQuery(query);                      
-            
-            if(resultSet.next()) {
-        		System.out.println("Tabela existe, pronta para inserção de registros !");
-        		tableFound = true;
-            }
-            
-            if(tableFound) {            	            	
+   
+            if(verifyIfTableExist(connection, tableName)) {            	            	
             	
             	String insert = "INSERT INTO " + tableName + " (";
             	String columns = "";
@@ -102,7 +88,7 @@ public class GenericDAOMySQL implements GenericDAO {
             	
             	insert += columns + ")" + " VALUES ( " + values + " );";
             	
-            	statament.execute(insert);
+            	statament.executeUpdate(insert);
             	
             	System.out.println("Inserção realizada com sucesso !!");
             }else {
@@ -117,18 +103,6 @@ public class GenericDAOMySQL implements GenericDAO {
 		
 	}
 
-	@Override
-	public void deleteAllInformations(Connection connection, List<ColumnsInformations> columnsInformations)
-			throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateAllInformations(Connection connection, List<ColumnsInformations> columnsInformations)
-			throws SQLException {
-		// TODO Auto-generated method stub
-	}
 
 	@Override
 	public void deleteTable(Connection connection, String tableName)
@@ -136,16 +110,14 @@ public class GenericDAOMySQL implements GenericDAO {
 		// TODO Auto-generated method stub
 		
 		System.out.println("Deletando a Tabela: " + tableName);
-		
+		 
 		//Verificando se a Tabela existe
         
 		try {
-		
-			String query = ("SELECT * FROM information_schema.tables WHERE table_schema = 'siq_jun_web' AND table_name = " + "'" + tableName + "';");
-			Statement statament = connection.createStatement();        
-	        ResultSet resultSet = statament.executeQuery(query);                      
-	        
-	        if(resultSet.next()) {
+			
+			Statement statament = connection.createStatement();
+			
+	        if(verifyIfTableExist(connection, tableName)) {
 	    		String deleteTable = "DROP TABLE " + tableName;
 	    		
 	    		statament.executeUpdate(deleteTable);
@@ -160,5 +132,109 @@ public class GenericDAOMySQL implements GenericDAO {
 		
 	}
 
+	@Override
+	public void deleteAllInformations(Connection connection, String tableName,
+			List<ColumnsInformations> whereColumnsInformations) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Deletando registros da Tabela: " + tableName);
+		
+		try {
+		
+			Statement statament = connection.createStatement();
+			
+			//Verificando se a Tabela existe
+			if(verifyIfTableExist(connection, tableName)) {
+				
+				String delete = "DELETE FROM " + tableName;
+				
+				if(whereColumnsInformations != null && whereColumnsInformations.size() > 0) {
+					for(int i=0; i < whereColumnsInformations.size(); i++) {
+						
+						if(i==0) {
+							delete += " WHERE " + whereColumnsInformations.get(i).getColumnName() + " = " + whereColumnsInformations.get(i).getColumnTypeOrValue();
+						}else {
+							delete += " AND " + whereColumnsInformations.get(i).getColumnName() + " = " + whereColumnsInformations.get(i).getColumnTypeOrValue();
+						}
+						
+					}
+				}
+				
+				statament.executeUpdate(delete);
+				
+			}else {
+				System.out.println("Tabela " + tableName + " não encontranda !!");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Falha ao deletar os registros da tabela " + tableName + " : " + e.getMessage());
+		}
+		
+		
+		
+	}
+
+	@Override
+	public void updateAllInformations(Connection connection, String tableName,
+			List<ColumnsInformations> updateColumnsInformations, List<ColumnsInformations> whereColumnsInformations)
+			throws SQLException {
+		// TODO Auto-generated method stub
+		
+		System.out.println("Atualizando registros da Tabela: " + tableName);
+		
+		try {
+			
+			Statement statament = connection.createStatement();
+			
+			//Verificando se a Tabela existe
+			if(verifyIfTableExist(connection, tableName)) {
+				
+				String delete = "DELETE FROM " + tableName;
+				
+				if(whereColumnsInformations != null && whereColumnsInformations.size() > 0) {
+					for(int i=0; i < whereColumnsInformations.size(); i++) {
+						
+						if(i==0) {
+							delete += " WHERE " + whereColumnsInformations.get(i).getColumnName() + " = " + whereColumnsInformations.get(i).getColumnTypeOrValue();
+						}else {
+							delete += " AND " + whereColumnsInformations.get(i).getColumnName() + " = " + whereColumnsInformations.get(i).getColumnTypeOrValue();
+						}
+						
+					}
+				}
+				
+				statament.executeUpdate(delete);
+				
+			}else {
+				System.out.println("Tabela " + tableName + " não encontranda !!");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("Falha ao deletar os registros da tabela " + tableName + " : " + e.getMessage());
+		}
+		
+	}
+
+	
+	public Boolean verifyIfTableExist(Connection connection, String tableName) {
+		
+		boolean tableExists = false;
+		
+		try {
+			String query = ("SELECT * FROM information_schema.tables WHERE table_schema = " + "'" + connection.getMetaData().getUserName().split("@")[0] + "'" + " AND table_name = " + "'" + tableName + "';");
+			Statement statament = connection.createStatement();        
+	        ResultSet resultSet = statament.executeQuery(query);
+	        
+	        tableExists = resultSet.next();
+	        
+		} catch (SQLException e) {
+			// TODO: handle exception			
+			System.out.println("Falha na verificação da tabela: " + e.getMessage());
+		}
+		
+		return tableExists;
+	}
 	
 }

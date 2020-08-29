@@ -108,6 +108,14 @@ public class ApplicationWithTasks {
 		
 		genericDAO.insert(connectionMySQL, tableName, columnsAndValues);
 		
+		//Atualizando Registro
+		List<ColumnsInformations> updateColumnsInformations = new ArrayList<>();
+		ColumnsInformations updateColumnsInformation = new ColumnsInformations("TEXTO", "Teste 123");
+		genericDAO.updateAllInformations(connectionMySQL, tableName, updateColumnsInformations, null);
+		
+		//Removendo Registros
+		genericDAO.deleteAllInformations(connectionMySQL, tableName, null);
+		
 		//Deletando Tabela
 		genericDAO.deleteTable(connectionMySQL, tableName);
 		
