@@ -8,9 +8,9 @@ This project aims to teach basic things made with Java.
 
   - Connection Database Examples with ORACLE, MySQL and SQLServer
   - Interface
-  - DAO in Database (Create Table, Delete Table, Update, Insert)
+  - DAO in Database (Create Table, Delete Table, Update, Insert, Delete)
  
-  ![alt text](https://i.imgur.com/a6SpExN.png)
+  ![alt text](https://i.imgur.com/9Qb6M96.png)
 
 - In the future, the following features will be added:
 
