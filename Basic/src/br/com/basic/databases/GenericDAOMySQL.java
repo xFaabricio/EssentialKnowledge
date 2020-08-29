@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import br.com.basic.ColumnsInformations;
 import br.com.basic.interfaces.GenericDAO;
@@ -61,7 +62,58 @@ public class GenericDAOMySQL implements GenericDAO {
 	@Override
 	public void insert(Connection connection, String tableName, HashMap<String, String> columnsAndValues)
 			throws SQLException {
-		// TODO Auto-generated method stub
+				
+		System.out.println("Iniciando Insert de Registro na Tabela: " + tableName);
+		
+		try {
+			
+			Statement statament = connection.createStatement();
+			Boolean tableFound = false;
+			
+			//Verificando se a Tabela existe
+            String query = ("SELECT * FROM information_schema.tables WHERE table_schema = 'siq_jun_web' AND table_name = " + "'" + tableName + "';");
+            ResultSet resultSet = statament.executeQuery(query);                      
+            
+            if(resultSet.next()) {
+        		System.out.println("Tabela existe, pronta para inserção de registros !");
+        		tableFound = true;
+            }
+            
+            if(tableFound) {            	            	
+            	
+            	String insert = "INSERT INTO " + tableName + " (";
+            	String columns = "";
+            	String values = "";
+            	
+            	int count = 0;
+            	
+            	for(Map.Entry<String, String> entry : columnsAndValues.entrySet()) {
+            	    String key = entry.getKey();
+            	    String value = entry.getValue();
+            	    
+            	    if(count == 0) {
+            	    	columns += key;
+            	    	values += "'"+value+"'";
+            	    }else {
+            	    	columns += "," +key;
+            	    	values += "," +"'"+value+"'";
+            	    }
+            	}
+            	
+            	insert += columns + ")" + " VALUES ( " + values + " );";
+            	
+            	statament.execute(insert);
+            	
+            	System.out.println("Inserção realizada com sucesso !!");
+            }else {
+            	System.out.println("A Tabela " + tableName + " não existe, não é possível realizar inserção.");
+            }
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			
+			System.out.println("Falha na inserção de registros: " + e.getMessage());
+		}
 		
 	}
 

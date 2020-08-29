@@ -3,6 +3,7 @@ package br.com.basic;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.basic.connection.ConnectionDB;
@@ -100,7 +101,16 @@ public class ApplicationWithTasks {
 		columnsInformationsList.add(columnsInformations);
 		
 		genericDAO.createTable(connectionMySQL, tableName, columnsInformationsList);
+		
+		//Inserindo Registro
+		HashMap<String, String> columnsAndValues = new HashMap<>();
+		columnsAndValues.put("TEXTO", "Teste Value");
+		
+		genericDAO.insert(connectionMySQL, tableName, columnsAndValues);
+		
+		//Deletando Tabela
 		genericDAO.deleteTable(connectionMySQL, tableName);
+		
 		
 		connectionMySQL.close();
 		
